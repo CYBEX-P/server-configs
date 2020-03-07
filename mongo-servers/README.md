@@ -14,22 +14,36 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io
 # sudo usermod -aG docker $USER # add user so that it does not need to use sudo to modify machines
 ```   
 # hostnames for mongo replica set
-|Hostname|Internal IP|External IP | 
-|:------:|:---------:|:----------:|
-|cici-mongo1|172.16.1.|134.197.20.18:3333|
-|cici-mongo2|172.16.1.14|134.197.20.18:4444|
-||172.16.1.|134.197.20.18:|
+Each node in the mongo replica set has the following configuration in `/etc/hosts`: 
+
+|Hostname|Hostname internal use|Internal IP|External IP | 
+|:------:|:---------------:|:---------:|:----------:|
+|cici-mongo1|mongo0|172.16.1.13|134.197.20.18:3333|
+|cici-mongo2|mongo1|172.16.1.14|134.197.20.18:4444|
+||mongo2|172.16.1.|134.197.20.18:|
+
+In the event that an IP changes it can be edited in `/etc/hosts` for each node in the set, no need to edit mongo `rs0` configuration.
 
 # Storage LVM on Mongo1,2 servers (one time setup)
 Each server should have a RAID drive of 4TB which is ~3.3.TB. Usually located at `/dev/sdb`
 There is a LVM Physical volume of 100% of this drive.   
 `/dev/sdb1` is `db-storage` Physical volume.   
 `db-storage-vg` is the database storage volumen group.   
-`backend-storage` is the name of the logical volume used in the DAM/Tahoe,Users,Archive,Report modules.   
+`backend-storage` is the name of the logical volume used in the DAM/Tahoe, Users, Archive, Report modules.   
 `cache-storage` is the name of the logical volume used for the cache data, this is a temporary location. This should be migrated to an external server(maybe cici-dev).  
-`backend-storage` and `cache-storage` use filesystem `ext4`.   
-   
+`backend-storage` and `cache-storage` use filesystem `xfs`. 
+It is recommended to use `xfs`, [MongoDB manual](https://docs.mongodb.com/manual/administration/production-notes/#kernel-and-file-systems).
+`backend-storage` is mounted under `/storage/backend/`.   
+`cache-storage` is mounted under `/storage/cache/`.   
+
+`/storage/backend/data` will be mounted into the container under `/data/db`, this stores the database. `/storage/backend/data` stores configurations for the sharded cluster and will be mounted under `/data/configdb` inside the container. This `configdb` folder is no used but is still stored in the raid drive in the the host, that way if the container needs to be updated/removed that data would be persistent on the host machine.
+
+same applies to the temporary `cache` instances, but these are stored under `/storage/cache/`.
+
+
+
 The following was done on `cici-mongo1` and `cici-mongo2`(independently):   
+
 ```bash
 parted -s /dev/sdb 'mklabel gpt'
 parted -s /dev/sdb 'mkpart db-storagre 1Mb 100%'
@@ -37,17 +51,24 @@ pvcreate /dev/sdb1
 vgcreate db-storage-vg /dev/sdb1
 lvcreate -L 2T -n backend-storage db-storage-vg
 lvcreate -L 1T -n cache-storage db-storage-vg
-mkfs.ext4 /dev/mapper/db--storage--vg-backend--storage
-mkfs.ext4 /dev/mapper/db--storage--vg-cache--storage
+# mkfs.ext4 /dev/mapper/db--storage--vg-backend--storage
+# mkfs.ext4 /dev/mapper/db--storage--vg-cache--storage
+mkfs.xfs /dev/mapper/db--storage--vg-backend--storage
+mkfs.xfs /dev/mapper/db--storage--vg-cache--storage
 ```
+## Data ownership
+Data is placed is under `/storage/backend` by the mongo container. The owner of the data is `mongodb` with uid `999` (this comes from the container). `mongodb(999)` is not a user in the host, therefore it shows as `999`. Dont change permissions as it would result on the container not being able to read/write data.    
+
+Data also belongs to the group `adm`, which is a group meant for data analysis. This does exits  on the container as well as the host. 
+
 
 ## Mount points (fstab) (one time setup)
 Use `sudo blkid` to get UUID for each disk.   
 
 `/etc/fstab`:   
 ```
-UUID=<uuid> /storage/backend ext4 defaults 0 0
-UUID=<uuid> /storage/cache ext4 defaults 0 0
+UUID=<uuid> /storage/backend xfs defaults 0 0
+UUID=<uuid> /storage/cache xfs defaults 0 0
 ```
 
 # Container Volumnes 
@@ -64,8 +85,22 @@ The `docker run` command will create new instance, so if you already have an ins
 docker pull mongo
 docker stop <mongoX>
 docker rm <mongoX>
-docker run -p 27017:27017 --name <mongoX> mongo mongod --replSet rs0
+docker run -p 27017:27017 --name <mongoX> -v /storage/backend/db:/data/db -v /storage/backend/configdb:/data/configdb  -v /storage/backend/logs:/var/log/mongodb mongo mongod --replSet rs0 --enableMajorityReadConcern false #--logpath /var/log/mongodb/logs
 ```   
+
+# MongoDB config 
+The following command was issued to configure the replica set `rs0`:   
+```javascript
+
+rs.initiate( {
+   _id : "rs0",
+   members: [
+      { _id: 0, host: "mongo0" },
+      { _id: 1, host: "mongo1" },
+      { _id: 2, host: "mongo2", arbiterOnly : true}
+   ]
+})
+```
 ## List instances
 ```bash
 docker container --all
