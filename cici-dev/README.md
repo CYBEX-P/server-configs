@@ -23,10 +23,16 @@ sudo mount -t xfs -U 52618327-d305-4e28-82f4-25daddf98df5  /storage/cache-db
 This user is used to run the plugin manager module, which will spawn input plugins. This user can not login. `uid` is of type `system`. `Shell` is `nologin`.
 
 ## User: cybex-api
-Api should be run as this user. `cybex-api` is part. This user is part of the `cache-db` group.
+Api should be run as this user. `cybex-api` is part. This user is part of the `cache-db` group.   
+```bash
+adduser --system --disabled-login --shell /bin/nologin cybex-api
+```
 
-## Group: cache-db
-This group has access to the mongodb cache-db Unix Domain Socket.
+## System Group: cache-db
+This group has access to the mongodb cache-db Unix Domain Socket.   
+```bash
+addgroup --system cache-db
+```
 
 # Modules in this serevr
 ## Input
