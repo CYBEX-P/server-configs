@@ -16,11 +16,11 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io
 # hostnames for mongo replica set
 Each node in the mongo replica set has the following configuration in `/etc/hosts`: 
 
-|Hostname|Hostname internal use|Internal IP|External IP | 
-|:------:|:---------------:|:---------:|:----------:|
-|cici-mongo1|mongo0|172.16.1.13|134.197.20.18:3333|
-|cici-mongo2|mongo1|172.16.1.14|134.197.20.18:4444|
-||mongo2|172.16.1.|134.197.20.18:|
+|Hostname|Hostname internal use|Internal IP||External SSH|Role| 
+|:------:|:---------------:|:---------:|:--:|:----------:|:-----:|
+|cici-mongo1|mongo0|172.16.1.13|27017|134.197.20.18:3333|Primary/Secondary|
+|cici-mongo2|mongo1|172.16.1.14|27017|134.197.20.18:4444|Primary/Secondary|
+|cici-mongo2|mongo2|172.16.1.14|27020|134.197.20.18:4444|Arbiter|
 
 In the event that an IP changes it can be edited in `/etc/hosts` for each node in the set, no need to edit mongo `rs0` configuration.
 
