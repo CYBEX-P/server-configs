@@ -7,7 +7,7 @@ Description=Cybex-P's Input Manager
 
 [Service]
 Type=simple
-ExecStart=/opt/cybexp/env/bin/python3 /opt/cybexp/input/input/PluginManager.py -r --log-file /var/log/cybexp/inputManager.log --plugin-log-file /var/log/cybexp/plugin.log --config-file /etc/cybexp/input/static-config.conf /etc/cybexp/input/api-config.conf 
+ExecStart=/opt/cybexp/env/bin/python3 /opt/cybexp/input/input/PluginManager.py -r --log-file /var/log/cybexp/inputManager.log --plugin-log-file /var/log/cybexp/plugin.log --config-file /etc/cybexp/input/static-config.conf /run/cybexp/inputs/  -s /etc/cybexp/input/api-config.conf 
 
 KillSignal=SIGSUSR1
 
