@@ -58,9 +58,9 @@ where `[args]` is either nothing for `cache-db` instance or `mongodb://mongo1,mo
 Look at how each server is setup in detail on the servers forder of this repo.   
 
 |what|location|type|
-|:-_:|:------:|:--:|
+|:--:|:------:|:--:|
 |cache-db|/storage/cache-db|LVM raid|
 |backend db|/storage/backend|LVM raid| 
-|backend db arbiter|/storage/backend/arbiter|LV raid| 
-|logs|/var/logs/cybexp/|LVM raid|
+|backend db arbiter|/storage/backend/arbiter|LVM raid| 
+|logs|/var/logs/cybexp/|LVM raid TODO|
 |configs / module configs|/etc/cybexp/|locally main drive|  
