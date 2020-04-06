@@ -14,12 +14,12 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io
 # sudo usermod -aG docker $USER # add user so that it does not need to use sudo to modify machines
 ```   
 # hostnames for mongo replica set
-Each node in the mongo replica set has the following configuration in `/etc/hosts`: 
+Each internal server has the following hosts configured in `/etc/hosts`: 
 
 |Hostname|Hostname internal use|Internal IP||External SSH|Role| 
 |:------:|:---------------:|:---------:|:--:|:----------:|:-----:|
-|cici-mongo1|mongo0|172.16.1.13|27017|134.197.20.18:3333|Primary/Secondary|
-|cici-mongo2|mongo1|172.16.1.14|27017|134.197.20.18:4444|Primary/Secondary|
+|cici-mongo1|mongo1|172.16.1.13|27017|134.197.20.18:3333|Primary/Secondary|
+|cici-mongo2|mongo2|172.16.1.14|27017|134.197.20.18:4444|Primary/Secondary|
 |cici-mongo2|mongo2|172.16.1.14|27020|134.197.20.18:4444|Arbiter|
 
 In the event that an IP changes it can be edited in `/etc/hosts` for each node in the set, no need to edit mongo `rs0` configuration.
@@ -97,7 +97,7 @@ rs.initiate( {
    members: [
       { _id: 0, host: "mongo0" },
       { _id: 1, host: "mongo1" },
-      { _id: 2, host: "mongo2", arbiterOnly : true}
+      { _id: 2, host: "mongo2:27020", arbiterOnly : true}
    ]
 })
 ```

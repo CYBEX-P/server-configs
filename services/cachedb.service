@@ -1,0 +1,15 @@
+[Unit]
+Description=Cybex-P's Cache DB
+After=docker.service
+# network-online.target
+Requires=docker.service
+# network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/docker start cache-db-mongo 
+ExecStop=/usr/bin/docker stop cache-db-mongo
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target

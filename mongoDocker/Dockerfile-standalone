@@ -1,5 +1,5 @@
 FROM mongo
 
-COPY ./mongoConfigstandalone.yml /etc/mongod.conf
+COPY ./mongoConfig-standalone.yml /etc/mongod.conf
 EXPOSE 27017
 CMD mongod --config /etc/mongod.conf

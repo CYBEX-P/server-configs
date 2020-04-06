@@ -1,0 +1,15 @@
+[Unit]
+Description=Cybex-P's Backend DB
+After=docker.service
+# network-online.target
+Requires=docker.service
+# network-online.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/docker start backend-mongo-rs0 
+ExecStop=/usr/bin/docker stop backend-mongo-rs0
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
