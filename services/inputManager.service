@@ -1,22 +1,25 @@
 [Unit]
 Description=Cybex-P's Input Manager
 
-# commend these id api is no longer in the same server
-#After=cybexp-api.service
-#Requires=cybexp-api.service
+# commend these if api is no longer in the same server
+After=network-online.target cybexp-api.service
+Requires= network-online.target cybexp-api.service
 
 [Service]
+
+User=cybexp-input
+WorkingDirectory=/opt/cybexp/input
+
 Type=simple
-ExecStart=/opt/cybexp/env/bin/python3 /opt/cybexp/input/input/PluginManager.py -r --log-file /var/log/cybexp/inputManager.log --plugin-log-file /var/log/cybexp/plugin.log --config-file /etc/cybexp/input/static-config.conf /run/cybexp/inputs/  -s /etc/cybexp/input/api-config.conf 
+ExecStart=/opt/cybexp/env/bin/python3 /opt/cybexp/input/PluginManager.py -r --log-file /var/log/cybexp/inputManager.log --plugin-log-file /var/log/cybexp/plugin.log --config-file /etc/cybexp/input/static-config.conf -s /run/cybexp/inputs/  --email-config /etc/cybexp/email.conf  /etc/cybexp/input/api-config.conf 
 
-KillSignal=SIGSUSR1
-
-RemainAfterExit=yes
+#KillSignal=SIGSUSR1
+#RemainAfterExit=yes
 
 
 Restart=on-failure
-RestartSec=1
-RestartPreventExitStatus=SIGUSR1
+ResarttSec=5
+#RestartPreventExitStatus=SIGUSR1
 
 [Install]
 WantedBy=multi-user.target

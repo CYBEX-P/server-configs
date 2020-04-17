@@ -9,6 +9,9 @@ systemLog:
    logAppend: true
    logRotate: rename
 
+# security:
+#    authorization: "enabled"
+
 # the following is not needed in standalone mode
 #replication:
 #   replSetName: rs0

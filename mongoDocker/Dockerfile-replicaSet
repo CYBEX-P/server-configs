@@ -2,4 +2,9 @@ FROM mongo
 
 COPY ./mongoConfig-rs0.yml /etc/mongod.conf
 EXPOSE 27017
+
+#RUN mongod --config /etc/mongod.conf
+#RUN mongo admin --eval 'db.createUser({user:"cici-admin",pwd:"",roles:[{ role: "userAdminAnyDatabase", db: "admin"}]})'
+#RUN pkill mongod 
+
 CMD mongod --config /etc/mongod.conf

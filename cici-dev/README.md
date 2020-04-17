@@ -19,17 +19,17 @@ sudo mount -t xfs -U 52618327-d305-4e28-82f4-25daddf98df5  /storage/cache-db
 
 # Users and Groups
 
-## User: plugin-runner
+## User: cybexp-input
 This user is used to run the plugin manager module, which will spawn input plugins. This user can not login. `uid` is of type `system`. `Shell` is `nologin`.
 
-## User: cybex-api
+## User: cybexp-api
 Api should be run as this user. `cybex-api` is part. This user is part of the `cache-db` group.   
 ```bash
-adduser --system --disabled-login --shell /bin/nologin cybex-api
+adduser --system --no-create-home --disabled-login --shell /bin/nologin cybexp-api
 ```
 
-## System Group: cache-db
-This group has access to the mongodb cache-db Unix Domain Socket.   
+## System Group: cybexp-log
+This group has write access the log folder, things writings logs should be in this group.   
 ```bash
 addgroup --system cache-db
 ```
@@ -43,8 +43,8 @@ Service: ` `
 MongoDB is bound to a local UDS not a IP:PORT interface.   
 Worth checking out https://stackoverflow.com/a/30657374   
 
+Server: `cici-dev`
 Service: ` `
-IP: `/some/location.sock`
-Port: `N/A`
-GID: `cache-db`
+IP: `localhost`
+Port: `27017`
 

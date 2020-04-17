@@ -18,3 +18,6 @@ replication:
 # enable if wanting to inspect data from arbiter
 # setParameter:
 #    enableLocalhostAuthBypass: false
+
+# security:
+#    authorization: "enabled"
