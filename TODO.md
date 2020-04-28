@@ -1,19 +1,22 @@
 # TODO
 
+- [ ] do [this](https://unix.stackexchange.com/a/503064) to the input manager 
+
+
 ## All servers (where aplicable)
 
 - [ ] make log stored in LVM instead of local drive
+   - [ ] cic-dev
 - [ ] settup fstab
 - [ ] mount log partition under `/var/log/cybexp/`
 - [ ] change permissions to allow group `cybexp` to write 
 - [ ] settup email config `/etc/cybexp/email.conf`
-- [ ] setup api key `/etc/cybexp/input/api-config.conf`
 
 
 
 ## cici-dev 
 
-- [] deploy input:
+- [ ] deploy input:
    - [ ] put code in `opt` 
    - [ ] settup email config
    - [ ] plugin configs:   
@@ -25,11 +28,10 @@
 
    - [ ] install service unit file 
    - [ ] enable service 
+   - [x] setup api key `/etc/cybexp/input/api-config.conf`
 
-- [ ] deploy API:
-   - [ ] 
-   - [ ] 
- 
+- [x] deploy API
+
 
 ## mongo 1-2 and arbiter(on mongo2)
 

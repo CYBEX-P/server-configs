@@ -8,17 +8,21 @@ Requires= network-online.target cybexp-api.service
 [Service]
 
 User=cybexp-input
+Group=cybexp-module
 WorkingDirectory=/opt/cybexp/input
+RuntimeDirectory=cybexp/inputs
+#RuntimeDirectoryMode=0755
 
 Type=simple
-ExecStart=/opt/cybexp/env/bin/python3 /opt/cybexp/input/PluginManager.py -r --log-file /var/log/cybexp/inputManager.log --plugin-log-file /var/log/cybexp/plugin.log --config-file /etc/cybexp/input/static-config.conf -s /run/cybexp/inputs/  --email-config /etc/cybexp/email.conf  /etc/cybexp/input/api-config.conf 
+ExecStart=/opt/cybexp/env/bin/python3 /opt/cybexp/input/PluginManager.py -r --log-file /storage/logs/inputManager.log --plugin-log-file /storage/logs/plugin.log --config-file /etc/cybexp/input/static-config.conf -s /run/cybexp/inputs/  /etc/cybexp/input/api-config.conf 
+#--email-config /etc/cybexp/email.conf
 
-#KillSignal=SIGSUSR1
+KillSignal=SIGUSR1
 #RemainAfterExit=yes
 
 
 Restart=on-failure
-ResarttSec=5
+RestartSec=5
 #RestartPreventExitStatus=SIGUSR1
 
 [Install]
