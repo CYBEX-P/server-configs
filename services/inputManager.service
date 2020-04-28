@@ -3,7 +3,8 @@ Description=Cybex-P's Input Manager
 
 # commend these if api is no longer in the same server
 After=network-online.target cybexp-api.service
-Requires= network-online.target cybexp-api.service
+Requires= network-online.target
+# cybexp-api.service
 
 [Service]
 
