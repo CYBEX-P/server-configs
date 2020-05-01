@@ -65,5 +65,5 @@ Look at how each server is setup in detail on the servers forder of this repo.
 |cache-db|/storage/cache-db|LVM raid|
 |backend db|/storage/backend|LVM raid| 
 |backend db arbiter|/storage/backend/arbiter|LVM raid| 
-|logs|/var/logs/cybexp/|LVM raid TODO|
+|logs|/storage/logs/|LVM RAID|
 |configs / module configs|/etc/cybexp/|locally main drive|  

@@ -1,0 +1,17 @@
+[Unit]
+Description=Reverse SSH tunnel(localhost:%i) to cici-dev
+
+After=network-online.target
+Requires= network-online.target
+
+[Service]
+User=cybexp-ssh-tunnel
+
+Type=simple
+ExecStart=/usr/bin/ssh -N -R localhost:%i cici-dev
+
+Restart=always
+RestartSec=0
+
+[Install]
+WantedBy=multi-user.target

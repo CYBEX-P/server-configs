@@ -28,6 +28,9 @@ Api should be run as this user. `cybex-api` is part. This user is part of the `c
 ```bash
 adduser --system --no-create-home --disabled-login --shell /bin/nologin cybexp-api
 ```
+## User: cybexp-ssh-tunnel
+Used to connect the mongoDB backend servers to a local port, restrictions apply (check [ssh-config](ssh-config)). This is a system user that has shell of `/bin/false`. Connections are reverse tunnel and come from the mongodb servers check the services folder for more info.   
+
 
 ## System Group: cybexp-module
 This group has write access most of things cybexp, mainly used to access python virtual environment `/opt/cybexp/env` and logs at `/storage/logs`.   

@@ -1,0 +1,9 @@
+# restrict the cybexp-ssh-tunnel user
+# add to /etc/ssh/sshd_config
+Match User cybexp-ssh-tunnel
+	GatewayPorts	no
+	AllowAgentForwarding no
+	X11Forwarding no
+	PermitTunnel no
+	AllowTcpForwarding remote
+	# PermitOpen         127.0.0.1:12345
