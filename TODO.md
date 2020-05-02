@@ -34,7 +34,7 @@
    - [ ] enable commented endpoints
 
 - [ ] deploy cache db
-   - deploy docker mongo standalone
+   - [ ] deploy docker mongo standalone
    - [ ] configure
    - [ ] enable autehntication
       - [ ] add admin user
