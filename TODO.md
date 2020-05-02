@@ -2,14 +2,13 @@
 
 - [ ] do [this](https://unix.stackexchange.com/a/503064) to the input manager 
 
-
 ## All servers (where aplicable)
 
 - [ ] make log stored in LVM instead of local drive
    - [ ] cic-dev
-- [ ] settup fstab
-- [ ] mount log partition under `/var/log/cybexp/`
-- [ ] change permissions to allow group `cybexp` to write 
+- [x] settup fstab
+- [x] mount log partition under `/storage//cybexp/`
+- [x] change permissions to allow group `cybexp` to write 
 - [ ] settup email config `/etc/cybexp/email.conf`
 
 
@@ -17,29 +16,56 @@
 ## cici-dev 
 
 - [ ] deploy input:
-   - [ ] put code in `opt` 
+   - [x] put code in `opt` 
    - [ ] settup email config
-   - [ ] plugin configs:   
-      - [ ] setup local config file unser `/etc/cybex/input/static-config.conf`
+   - [x] plugin configs:   
+      - [x] setup local config file unser `/etc/cybex/input/static-config.conf`
       - [ ] setup backend config module `rs0`
-   - [ ] setup socket location `/run/cybexp/inputs/`
-   - [ ] setup api key `/etc/cybexp/input/api-config.conf`
-      -[ ] set read only by system user `cybexp-input`
-
-   - [ ] install service unit file 
-   - [ ] enable service 
+   - [x] setup socket location `/run/cybexp/inputs/`
+   - [x] setup api key `/etc/cybexp/input/api-config.conf`
+      -[x] set read only by system user `cybexp-input`
+   - [x] install service unit file 
+   - [x] enable service 
    - [x] setup api key `/etc/cybexp/input/api-config.conf`
 
 - [x] deploy API
+   - [x] enable `raw` endpoint
+   - [ ] add backend db URI
+   - [ ] enable commented endpoints
 
+- [ ] deploy cache db
+   - deploy docker mongo standalone
+   - [ ] configure
+   - [ ] enable autehntication
+      - [ ] add admin user
+      - [ ] add other users
+         - [ ] API
+         - [ ] archive
 
 ## mongo 1-2 and arbiter(on mongo2)
 
-- [ ] LVM
-- [ ] fstab automount
-- [ ] install docker
-- [ ] create container
-   - [ ] arbiter
-- [ ] install service unit file
-- [ ] install port forwarding unit files
+- [x] LVM
+- [x] fstab automount
+- [x] install docker
+- [x] create container
+   - [x] arbiter
+- [x] install service unit file
+- [x] install port forwarding unit files
 - [ ] configure `rs0`
+- authentication
+   - [ ] add admin user 
+   - [ ] add other users
+      - [ ] api
+      - [ ] archive
+      - [ ] analitics
+   - [ ] enable set memeber authentication
+      - [ ] https://docs.mongodb.com/manual/core/security-internal-authentication/#inter-process-auth
+      - [ ] https://docs.mongodb.com/manual/tutorial/deploy-replica-set-with-keyfile-access-control/
+      - [ ] add key auth to mongo config file
+         - [ ] 1
+         - [ ] 2
+         - [ ] 2A
+   - enable auth in mongo configuration file
+      - [ ] 1
+      - [ ] 2
+      - [ ] 2A
