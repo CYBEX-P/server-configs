@@ -15,7 +15,7 @@ def get_db(hosts='localhost:27017', dbname="admin", u=None, p=None, authsource=N
       URI = 'mongodb://{}:{}@{}/?authSource={}'.format(u,p,hosts,authsource)
    else:
       URI = 'mongodb://{}/?'.format(hosts,authsource)
-   if getBooleanInput("is this a replicate set?"):
+   if getBooleanInput("is this a replicate set? "):
       n = input("replica set name: ")
       if u:
          URI = "{}&replicaSet={}".format(URI, n)
@@ -37,13 +37,21 @@ def getBooleanInput(msg=""):
       elif i == "n" or i == "no" or i == "false" or i == "f":
          return False
       i = input(msg).strip().lower()
+def pickOne(msg ,opts:list):
+   i = input("{} {}:".format(msg, opts))
+   while i not in opts:
+      i = input("{} {}:".format(msg, opts))
+   return i
 
 def gen_roles(username="user"):
    roles = list()
    while getBooleanInput("add role to {}? ".format(username)):
-      r = dict()
-      r["role"] = input("role: ")
-      r["db"] = input("db: ")
+      if getBooleanInput("assign role to specific db? "):
+         r = dict()
+         r["role"] = input("role: ")
+         r["db"] = input("db: ")
+      else:
+         r = input("role: ")
       if getBooleanInput("Is this correct: {}? ".format(r)):
          roles.append(r)  
    return roles
