@@ -1,7 +1,7 @@
 # restrict the cybexp-ssh-tunnel user
 # add to /etc/ssh/sshd_config
 Match User cybexp-ssh-tunnel
-	GatewayPorts	no
+	GatewayPorts clientspecified
 	AllowAgentForwarding no
 	X11Forwarding no
 	PermitTunnel no
