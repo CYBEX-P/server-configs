@@ -1,4 +1,9 @@
+# info
+Setup infomation is pretty much identical to how `cici-dev` was setup, so look [there](../cici-dev/README.md)   
+
+
 # Modules
+Under `/opt/cybexp/`:   
 - archive
 - analytics
 
