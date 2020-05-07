@@ -5,6 +5,22 @@ import getpass
 import json
 
 
+INSERT_ACTION_SET = [
+      "createIndex",
+      "insert",
+      "killCursors",
+      "listIndexes",
+      "listCollections"
+   ]
+UPDATE_ACTION_SET = [
+      "find",
+      "killCursors",
+      "listIndexes",
+      "listCollections",
+      "update"
+   ]
+
+
 CUSTOM_ROLES = dict()
 
 CUSTOM_ROLES["listDatabases"] = {
@@ -14,17 +30,42 @@ CUSTOM_ROLES["listDatabases"] = {
       ],
       "roles": []
    }
-CUSTOM_ROLES["insertonly_cachedb"] = {
-      "role": "insertonly_cachedb",
+CUSTOM_ROLES["api_raw_cachedb"] = {
+      "role": "api_raw_cachedb",
       "privileges": [
          { "resource": { "db": "cache_db", "collection": "" }, 
-                        "actions": ["createIndex","insert","killCursors",
-                                    "listIndexes","listCollections"] }
+                        "actions": INSERT_ACTION_SET }
       ],
       "roles": [{ "role": "listDatabases", "db": "admin" }]
    }
+CUSTOM_ROLES["archive_cachedb"] = {
+      "role": "archive_cachedb",
+      "privileges": [
+         { "resource": { "db": "cache_db", "collection": "" }, 
+                        "actions": UPDATE_ACTION_SET }
+      ],
+      "roles": [{ "role": "listDatabases", "db": "admin" },
+               { "role": "read", "db": "cache_db" }]
+   }
+CUSTOM_ROLES["backend_cru"] = {
+      "role": "backend_cru",
+      "privileges": [
+         { "resource": { "db": "tahoe_db", "collection": "" }, 
+                        "actions": list(set(INSERT_ACTION_SET + UPDATE_ACTION_SET)) }
+      ],
+      "roles": [{ "role": "listDatabases", "db": "admin" },
+               { "role": "read", "db": "tahoe_db" }]
+   }
+CUSTOM_ROLES["backend_crud"] = {
+      "role": "backend_crud",
+      "privileges": [],
+      "roles": [{ "role": "listDatabases", "db": "admin" },
+               { "role": "readWrite", "db": "tahoe_db" }]
+   }
 
 
+
+ADMIN_ROLES = [{ "role": "userAdminAnyDatabase", "db": "admin" }, "readWriteAnyDatabase"]
 
 def default(choi, deflt):
    if choi and choi.strip() != "":
@@ -58,8 +99,10 @@ def get_credentials(msg=""):
    passwd = getpass.getpass()
    return user,passwd
 
-def getBooleanInput(msg=""):
+def getBooleanInput(msg="", defaultBool=None):
    i = input(msg).strip().lower()
+   if defaultBool != None and i.strip() == "":
+      return defaultBool
    while True:
       if i == "y" or i == "yes" or i == "true" or i == "t":
          return True
@@ -75,6 +118,8 @@ def pickOne(msg ,opts:list):
 
 def gen_roles(username="user"):
    roles = list()
+   if getBooleanInput("is {} admin type? ".format(username)):
+      roles = ADMIN_ROLES
    while getBooleanInput("add new role to {}? ".format(username)):
       if getBooleanInput("assign role to specific db? "):
          r = dict()

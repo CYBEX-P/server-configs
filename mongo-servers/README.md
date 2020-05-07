@@ -22,7 +22,10 @@ Each internal server has the following hosts configured in `/etc/hosts`:
 |cici-mongo2|mongo2|172.16.1.14|27017|134.197.20.18:4444|Primary/Secondary|
 |cici-mongo2|mongo2|172.16.1.14|27020|134.197.20.18:4444|Arbiter|
 
-In the event that an IP changes it can be edited in `/etc/hosts` for each node in the set, no need to edit mongo `rs0` configuration.
+In the event that an IP changes it can be edited in `/etc/hosts` for each node in the set, no need to edit mongo `rs0` configuration. This need to be be done inside the docker container. to get a shell do:   
+```bash
+sudo docker exec -it <name-of-container> bash
+```
 
 # Storage LVM on Mongo1,2 servers (one time setup)
 Each server should have a RAID drive of 4TB which is ~3.3.TB. Usually located at `/dev/sdb`
