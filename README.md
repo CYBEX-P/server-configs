@@ -1,6 +1,42 @@
 # TODO
 [TODO.md](TODO.md)   
 
+# Connecting to mongo backend instance rs0
+## from inside firewall or in cici-dev
+`monogodb://monog1,monog2,monog2:27020/?replicaSet=rs0`   
+if using authentication:   
+`monogodb://<user>:<pass>@monog1,monog2,monog2:27020/?replicaSet=rs0&authSource=admin`   
+
+cici-dev its already configured, unlike outside of the network (see below).
+## from outside of the firewall or cici-dev
+
+to connect you need two things:
+1. edit dns hosts file and add `cici-dev`, `mongo1` and `mongo2` to it, using the ips of the interfaces bound in previous step
+2. make ssh tunnels and bind them to a different local interface
+
+do the following:   
+
+edit local `/etc/hosts` (windows has one on another location) and add the following:   
+```
+<cici-dev IP> cici-dev
+127.0.0.5 mongo1
+127.0.0.6 mongo2
+```
+then execute
+```bash
+ssh -L 27017:127.0.0.1:27017 \
+   -L 127.0.0.5:27017:127.0.0.5:27017 \
+   -L 127.0.0.6:27017:127.0.0.6:27017 \
+   -L 127.0.0.6:27020:127.0.0.6:27020 \
+   cici-dev
+```
+then use:
+`monogodb://monog1,monog2,monog2:27020/?replicaSet=rs0`   
+if using authentication:   
+`monogodb://<user>:<pass>@monog1,monog2,monog2:27020/?replicaSet=rs0&authSource=admin`   
+
+
+
 # Services
 Systemctl have been setup to aid management   
 Rememeber that some services have restart upon exiting, to stop use `systemctl stop <service name>`, else it will restart.
