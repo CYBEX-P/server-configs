@@ -30,12 +30,12 @@
 
 - [x] deploy API
    - [x] enable `raw` endpoint
-   - [ ] add backend db URI
-   - [ ] enable commented endpoints
+   - [x] add backend db URI
+   - [x] enable commented endpoints
 
-- [ ] deploy cache db
-   - [ ] deploy docker mongo standalone
-   - [ ] configure
+- [x] deploy cache db
+   - [x] deploy docker mongo standalone
+   - [x] configure
    - [ ] enable autehntication
       - [ ] add admin user
       - [ ] add other users

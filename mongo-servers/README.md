@@ -93,17 +93,8 @@ docker run -p 27017:27017 --name <mongoX> -v /storage/backend/db:/data/db -v /st
 
 # MongoDB config 
 The following command was issued to configure the replica set `rs0`:   
-```javascript
+see [here](rs0-config).
 
-rs.initiate( {
-   _id : "rs0",
-   members: [
-      { _id: 0, host: "mongo0" },
-      { _id: 1, host: "mongo1" },
-      { _id: 2, host: "mongo2:27020", arbiterOnly : true}
-   ]
-})
-```
 ## List instances
 ```bash
 docker container --all
