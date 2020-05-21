@@ -1,0 +1,24 @@
+[Unit]
+Description=Cybex-P's Analytics Module
+
+After=network-online.target
+
+
+[Service]
+
+User=cybexp-analytics
+Group=cybexp-module
+WorkingDirectory=/opt/cybexp/proc/analytics
+
+Type=simple
+ExecStart=/opt/cybexp/env/bin/python3 /opt/cybexp/proc/analytics/analytics.py
+
+#KillSignal=SIGUSR1
+
+
+Restart=on-failure
+RestartSec=5
+#RestartPreventExitStatus=SIGUSR1
+
+[Install]
+WantedBy=multi-user.target
