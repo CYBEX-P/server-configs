@@ -1,5 +1,5 @@
 
-# Initial settup on mongoX servers (not done yet)
+# Initial settup on mongoX servers
 
 Install `docker`:   
 ```bash
@@ -83,6 +83,9 @@ The name of the replica set is `rs0`.
 Use `mongodb://cici-mongo1,cici-mongo2,<host3>/?replicaSet=rs0` to access the replica set.
 
 ## Settup/update procedure
+
+Look at https://github.com/CYBEX-P/server-configs/tree/master/mongoDocker
+### deprecated
 The `docker run` command will create new instance, so if you already have an instance please refer to start/stop section
 ```bash
 docker pull mongo
@@ -108,8 +111,9 @@ docker stop <mongoX>
 
 
 # Mongo authentication
+https://github.com/CYBEX-P/server-configs/tree/master/mongoDocker
 
-## Replicate ser internal/membership authentication
+## Replicate ser internal/membership authentication (not enabled yet)
 When using DB autehntication internal.membership authentication is mandatory.    
 <deatails here>
 
