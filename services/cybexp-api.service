@@ -4,7 +4,7 @@ After=network.target
 
 [Service]
 #WorkingDirectory=/opt/cybexp/api
-ExecStart=/opt/cybexp/env/bin/uwsgi --ini /etc/cybexp/api/api-uwsgi.ini 
+ExecStart=/opt/cybexp/env3.7/bin/uwsgi --ini /opt/cybexp/api/uwsgi.ini
 #User=cybexp-api
 #Group=cybexp-api
 Restart=on-failure
