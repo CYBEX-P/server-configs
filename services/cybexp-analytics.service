@@ -11,7 +11,7 @@ Group=cybexp-module
 WorkingDirectory=/opt/cybexp/proc/analytics
 
 Type=simple
-ExecStart=/opt/cybexp/env/bin/python3 /opt/cybexp/proc/analytics/analytics.py
+ExecStart=/opt/cybexp/env/bin/python3 /opt/cybexp/analytics/analytics.py
 
 #KillSignal=SIGUSR1
 
